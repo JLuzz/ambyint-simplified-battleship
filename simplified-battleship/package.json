@@ -4,7 +4,7 @@
   "description": "A simplified version of the classic game, Battleship.",
   "main": "Battleship.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --silent",
     "start": "node --no-warnings Battleship.js"
   },
   "jest": {
