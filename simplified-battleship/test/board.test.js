@@ -18,12 +18,43 @@ describe('Board', () => {
     expect(board.ship).toBeObject()
   })
 
+  describe('placeShip', () => {
+
+    test('should place ship horizontally', () => {
+
+    })
+
+    test('Should place ship verically', () => {
+
+    })
+
+  })
+
   describe('placeShot', () => {
 
-    test('Should place shot on board and change the value to 1', () => {
-      let coordinate = [0,0]
+    let coordinate = [0,0]
+
+    test('Should place a miss on the board when firing at water', () => {
       board.placeShot(coordinate)
-      expect(board.board[coordinate[0]][coordinate[1]]).toBe(2)
+      expect(board.board[coordinate[0]][coordinate[1]]).toBe(BOARD.MISS)
+    })
+
+    test('Should remain a miss when firing at a miss', () => {
+      board.board[0][0] = BOARD.MISS
+      board.placeShot(coordinate)
+      expect(board.board[coordinate[0]][coordinate[1]]).toBe(BOARD.MISS)
+    })
+
+    test('Should place a hit on the board when firing at a ship', () => {
+      board.board[0][0] = BOARD.SHIP
+      board.placeShot(coordinate)
+      expect(board.board[coordinate[0]][coordinate[1]]).toBe(BOARD.HIT)
+    })
+
+    test('Should remain a hit when firing at a hit', () => {
+      board.board[0][0] = BOARD.HIT
+      board.placeShot(coordinate)
+      expect(board.board[coordinate[0]][coordinate[1]]).toBe(BOARD.HIT)
     })
 
   })
@@ -31,7 +62,8 @@ describe('Board', () => {
   describe('printBoard', () => {
 
     test('Should return string a representation of the board', () => {
-      expect(board.printBoard).toEqual(
+      let boardRepresentation = board.printBoard()
+      expect(boardRepresentation).toEqual(
         '   A B C D E F G H\n'+
         '   - - - - - - - -\n'+
         '1 | | | | | | | | |\n'+
