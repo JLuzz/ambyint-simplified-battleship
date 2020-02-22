@@ -1,6 +1,6 @@
-const TOPROW = '   A B C D E F G H\n'
-const VD = '   - - - - - - - -\n'
-const WATER = 0
-const HIT = 1
-const MISS = 2
-const SHIP = 3
+export const TOPROW = '   A B C D E F G H\n'
+export const VD = '   - - - - - - - -\n'
+export const WATER = 0
+export const HIT = 1
+export const MISS = 2
+export const SHIP = 3
