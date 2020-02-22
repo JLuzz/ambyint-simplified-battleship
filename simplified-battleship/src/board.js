@@ -17,13 +17,28 @@ export default class Board {
     }
   }
   
+  placeShip(start, end) {
+    //determine if its a valid placement
+    // put BOARD.SHIP in locations 
+    // give this.ship its location
+  }
 
   placeShot(coordinate) {
-
+    this.board[coordinate[0]][coordinate[1]] == BOARD.SHIP || this.board[coordinate[0]][coordinate[1]] == BOARD.HIT ? 
+    this.board[coordinate[0]][coordinate[1]] = BOARD.HIT : 
+    this.board[coordinate[0]][coordinate[1]] = BOARD.MISS
   }
 
   printBoard() {
+    let boardFill = ''
     
+    this.board.forEach((element, index) => {
+        boardFill += BOARD.VERTICAL_DIVIDER + this.printRow(index)
+    })
+
+    return BOARD.TOPROW +
+      boardFill +
+      BOARD.VERTICAL_DIVIDER
   }
 
   printRow(row) {
