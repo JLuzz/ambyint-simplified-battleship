@@ -1,5 +1,7 @@
 import GameController from "../src/gameController.js"
 
+jest.mock('readline')
+
 var GC
 
 beforeEach(() => {
