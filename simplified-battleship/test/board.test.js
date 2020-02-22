@@ -68,27 +68,27 @@ describe('Board', () => {
 
     test('Print water', () => {
       let symbol = board.printSymbol(BOARD.WATER)
-      expect(symbol).toEqual('| |')
+      expect(symbol).toEqual(' ')
     })
 
     test('Print hit', () => {
       let symbol = board.printSymbol(BOARD.HIT)
-      expect(symbol).toEqual('|✺|')
+      expect(symbol).toEqual('✺')
     })
 
     test('Print miss', () => {
       let symbol = board.printSymbol(BOARD.MISS)
-      expect(symbol).toEqual('|☼|')
+      expect(symbol).toEqual('☼')
     })
 
     test('Print ship', () => {
       let symbol = board.printSymbol(BOARD.SHIP)
-      expect(symbol).toEqual('|S|')
+      expect(symbol).toEqual('S')
     })
 
     test('Print default', () => {
       let symbol = board.printSymbol(7)
-      expect(symbol).toEqual('| |')
+      expect(symbol).toEqual(' ')
     })
 
   })
