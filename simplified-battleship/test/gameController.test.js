@@ -56,12 +56,12 @@ describe('GameController', () => {
     })
     
     test('Should be true if Player[1] ship is sunk', () => {
-      GC.Players[1].Board.Ship.isSunk = true
+      GC.Players[1].board.ship.isSunk = true
       expect(GC.winConditionMet()).toBeTruthy()
     })
 
     test('Should be false if Player[1] ship is not sunk', () => {
-      GC.Players[1].Board.Ship.isSunk = false
+      GC.Players[1].board.ship.isSunk = false
       expect(GC.winConditionMet()).toBeFalsy()
     })
 

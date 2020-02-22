@@ -5,6 +5,8 @@ const rl = readline.createInterface({
   output: process.stdout
 })
 
+import Player from './player.js'
+
 //Controls the flow of the game
 //Controlling Player = Players[0]
 //Non-Controlling Player = Players[1]
@@ -30,17 +32,16 @@ export default class GameController {
     process.exit()
   }
 
-  //Initial setup of game, Player creation
+  //Initial game setup, Player creation
   setup() {
-    //create two new players and add them to player array
-    // player1 = new Player('1')
-    // player2 = new Player('2')
-    this.Players = [{ID: '1', Board: {Ship: {isSunk: false}}}, {ID: '2', Board: {Ship: {isSunk: false}}}]
+    let player1 = new Player('1')
+    let player2 = new Player('2')
+    this.Players = [player1, player2]
   }
 
   //Checks if the non-controlling player ship has been sunk
   winConditionMet() {
-    return this.Players[1].Board.Ship.isSunk
+    return this.Players[1].board.ship.isSunk
   }
 
   //If a win condition has not been met, switch players
@@ -65,12 +66,11 @@ export default class GameController {
     })
   }
 
-
-
   //Allow the controlling player to fire a shot
   async takeTurn() {
     // take input and fire
     let input = await this.getUserInput()
+    // validate shot or ask for input again
     input == 'Q' ? this.endGame() : this.endTurn()
     
   }
