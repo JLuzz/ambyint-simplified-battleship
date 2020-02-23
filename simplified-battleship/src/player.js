@@ -8,7 +8,11 @@ export default class Player {
   }
 
   recieveShot(shot) {
-    // this.board.placeShot(shot)
+    this.board.placeShot(shot)
+  }
+
+  placeShip(start , end) {
+    this.board.placeShip(start , end)
   }
 
 }
