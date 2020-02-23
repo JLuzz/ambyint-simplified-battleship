@@ -19,13 +19,14 @@ describe('Board', () => {
   })
 
   describe('placeShip', () => {
+    let start = [0,1]
+    let end = [0,3]
 
-    test('should place ship horizontally', () => {
-
-    })
-
-    test('Should place ship verically', () => {
-
+    test('should place ship on board', () => {
+      board.placeShip(start, end)
+      expect(board.board[0][1]).toEqual(BOARD.SHIP)
+      expect(board.board[0][2]).toEqual(BOARD.SHIP)
+      expect(board.board[0][3]).toEqual(BOARD.SHIP)
     })
 
   })
