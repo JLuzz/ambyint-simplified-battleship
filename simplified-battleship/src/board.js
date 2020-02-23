@@ -19,14 +19,35 @@ export default class Board {
   
   placeShip(start, end) {
     //determine if its a valid placement
-    // put BOARD.SHIP in locations 
-    // give this.ship its location
+    // let orientation = 'horizontal'
+    // // is it vertical or horizontal?
+    // if(start[0] != end[0]) {
+    //   orientation = 'vertical'
+    // }
+    // let direction = 'forwards'
+    // // is it a valid length
+    // if(orientation = 'horizontal'){
+    //   if(start[0] + 2 == end[0]){
+        
+    //   }
+    // } else {
+    //   if()
+    // }
+    // let coordinates = this.ship.place(start, end)
+    let coordinates = [[0,1],[0,2],[0,3]]
+    coordinates.forEach((coordinate) => {
+      this.board[coordinate[0]][coordinate[1]] = BOARD.SHIP
+    })
   }
 
   placeShot(coordinate) {
-    this.board[coordinate[0]][coordinate[1]] == BOARD.SHIP || this.board[coordinate[0]][coordinate[1]] == BOARD.HIT ? 
-    this.board[coordinate[0]][coordinate[1]] = BOARD.HIT : 
-    this.board[coordinate[0]][coordinate[1]] = BOARD.MISS
+    if(this.board[coordinate[0]][coordinate[1]] == BOARD.SHIP || this.board[coordinate[0]][coordinate[1]] == BOARD.HIT) {
+      // this.ship.registerHit(coordinate)
+      this.board[coordinate[0]][coordinate[1]] = BOARD.HIT 
+    }
+    else {
+      this.board[coordinate[0]][coordinate[1]] = BOARD.MISS
+    }
   }
 
   printBoard() {
