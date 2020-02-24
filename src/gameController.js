@@ -126,21 +126,21 @@ export default class GameController {
 
     switch(input.charAt(0).toUpperCase()) {
       case 'A':
-        return [0, integerInput]
+        return [integerInput, 0]
       case 'B':
-        return [1, integerInput]
+        return [integerInput, 1]
       case 'C':
-        return [2, integerInput]
+        return [integerInput, 2]
       case 'D':
-        return [3, integerInput]
+        return [integerInput, 3]
       case 'E':
-        return [4, integerInput]
+        return [integerInput, 4]
       case 'F':
-        return [5, integerInput]
+        return [integerInput, 5]
       case 'G':
-        return [6, integerInput]
+        return [integerInput, 6]
       case 'H':
-        return [7, integerInput]
+        return [integerInput, 7]
       case 'Q':
         return 'Q'
       default:
