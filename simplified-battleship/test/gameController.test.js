@@ -15,24 +15,12 @@ describe('GameController', () => {
     expect(GC.Players.length).toEqual(0)
   })
 
-  describe('start', () => {
-
-    test('Should setup and begin gameplay', () => {
-      GC.start()
-      expect(GC.Players.length).toEqual(2)
-    })
-
-  })
-
   describe('quit', () => {
     
     const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => {})
 
-    beforeEach(() => {
-      GC.setup()
-    })
-
     test('Should exit game', () => {
+      GC.quit()
       expect(mockExit).toHaveBeenCalled()
     })
 
@@ -43,7 +31,8 @@ describe('GameController', () => {
     const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => {})
 
     beforeEach(() => {
-      GC.setup()
+      GC.Players[0] = {ID: '1', board: {printBoard:() => {}, ship: {isSunk: true}}}
+      GC.Players[1] = {ID: '2', board: {printBoard:() => {}, ship: {isSunk: true}}}
     })
     
     test('Should empty the player array and exit game', () => {
@@ -66,16 +55,16 @@ describe('GameController', () => {
   describe('winConditionMet', () => {
 
     beforeEach(() => {
-      GC.setup()
+      GC.Players[1] = {board: {ship: {isSunk: true}}}
     })
     
     test('Should be true if Player[1] ship is sunk', () => {
-      GC.Players[1].board.ship.isSunk = true
       expect(GC.winConditionMet()).toBeTruthy()
     })
 
     test('Should be false if Player[1] ship is not sunk', () => {
       GC.Players[1].board.ship.isSunk = false
+
       expect(GC.winConditionMet()).toBeFalsy()
     })
 
@@ -83,13 +72,11 @@ describe('GameController', () => {
 
   describe('swapControllingPlayer', () => {
 
-    beforeEach(() => {
-      GC.setup()
-    })
-
     test('Should swap Player[0] and Player[1]', () => {
+      GC.Players = [{ID: '1'}, {ID: '2'}]
       let controllingPlayerBeforeSwap = GC.Players[0]
       let nonControllingPlayerBeforeSwap = GC.Players[1]
+
       GC.swapControllingPlayer()
       expect(controllingPlayerBeforeSwap).not.toEqual(GC.Players[0])
       expect(nonControllingPlayerBeforeSwap).not.toEqual(GC.Players[1])
@@ -102,6 +89,7 @@ describe('GameController', () => {
     test('Should return coordinate', () => {
       let input = 'A1'
       let translation = GC.translateInput(input)
+
       expect(translation[0]).toEqual(0)
       expect(translation[1]).toEqual(0)
     })
@@ -109,11 +97,13 @@ describe('GameController', () => {
     test('Should return \'Q\'', () => {
       let input = 'Q'
       let translation = GC.translateInput(input)
+
       expect(translation).toEqual('Q')
     })
 
     test('Should throw invalid integer input error', () => {
       let input = 'A9'
+
       try {
         GC.translateInput(input)
       } catch(e) {
@@ -123,6 +113,7 @@ describe('GameController', () => {
 
     test('Should throw invalid alpha error', () => {
       let input = 'X1'
+
       try {
         GC.translateInput(input)
       } catch(e) {
@@ -132,6 +123,7 @@ describe('GameController', () => {
 
     test('Should throw error if coordinates are too long', () => {
       let input = 'A12'
+      
       try {
         GC.translateInput(input)
       } catch(e) {
