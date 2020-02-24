@@ -113,7 +113,7 @@ export default class GameController {
   translateInput(input) {
 
     if(input.length > 2) {
-      throw 'Enter coordiates in the format : B5'
+      throw 'Enter coordinates in the format : B5'
     }
 
     let integerInput = parseInt(input.charAt(1)) - 1
