@@ -20,10 +20,12 @@ export default class Board {
   placeShot(coordinate) {
     if(this.board[coordinate[0]][coordinate[1]] == BOARD.SHIP || this.board[coordinate[0]][coordinate[1]] == BOARD.HIT) {
       this.ship.registerHit(coordinate)
-      this.board[coordinate[0]][coordinate[1]] = BOARD.HIT 
+      this.board[coordinate[0]][coordinate[1]] = BOARD.HIT
+      console.log('HIT!!!')
     }
     else {
       this.board[coordinate[0]][coordinate[1]] = BOARD.MISS
+      console.log('MISS...')
     }
   }
 
