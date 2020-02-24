@@ -52,6 +52,7 @@ export default class Ship {
     this.placement.forEach((element) => {
       if (element.coordinate[0] == shot[0] && element.coordinate[1] == shot[1]) element.hit = true
     })
+    this.checkSunk()
   }
 
   checkSunk() {
