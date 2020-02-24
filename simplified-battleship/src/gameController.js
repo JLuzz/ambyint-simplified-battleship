@@ -23,19 +23,35 @@ export default class GameController {
     this.takeTurn()
   }
 
+  quit() {
+    console.log('Goodbye')
+    console.log('Please play again soon!')
+    process.exit()
+  }
+
   //Ends game
   endGame() {
     console.log(`Congratulations Player ${this.Players[0].ID}, you sunk my battleship`)
     console.log('Game Over...')
-    //Print Boards
+    console.log('Player 1 Board:')
+    console.log(this.Players.find(player => player.ID == '1').board.printBoard())
+    console.log('Player 2 Board:')
+    console.log(this.Players.find(player => player.ID == '2').board.printBoard())
     this.Players = []
     process.exit()
   }
 
   //Initial game setup, Player creation
-  setup() {
+  async setup() {
     let player1 = new Player('1')
+    let player1placement = [[0,0], [0,2]]
+    // let player1Placement = await this.getPlayerPlacement(player1.ID)
+    // let coordinates = translateInput();
+    player1.placeShip(player1Placement[0], player1Placement[1])
+
     let player2 = new Player('2')
+    let player2placement = [[0,0], [0,2]]
+    player2.placeShip(player2placement[0], player2placement[1])
     this.Players = [player1, player2]
   }
 
@@ -60,18 +76,73 @@ export default class GameController {
     this.Players = [this.Players[1], this.Players[0]]
   }
 
-  getUserInput(){
+  getPlayerShot() {
     return new Promise((resolve, reject) => {
       rl.question(`Player ${this.Players[0].ID}: Provide a location to hit Player ${this.Players[1].ID} ship. Format: B5\n`, resolve)
     })
   }
 
+  getPlayerPlacement(id) {
+    return new Promise((resolve, reject) => {
+      rl.question(`Please enter the ship location for Player ${id}. Format: A3 A5\n`, resolve)
+    })
+  }
+
+  translateInput(input) {
+
+    let integerInput = parseInt(input.charAt(1)) - 1
+
+    if(integerInput < 0 || integerInput > 7) {
+      throw 'Number must be between 1 - 8'
+    } 
+
+    switch(input.charAt(0).toUpperCase()) {
+      case 'A':
+        return [0, integerInput]
+      case 'B':
+        return [1, integerInput]
+      case 'C':
+        return [2, integerInput]
+      case 'D':
+        return [3, integerInput]
+      case 'E':
+        return [4, integerInput]
+      case 'F':
+        return [5, integerInput]
+      case 'G':
+        return [6, integerInput]
+      case 'H':
+        return [7, integerInput]
+      case 'Q':
+        return 'Q'
+      default:
+        throw 'Alpha char must be A-H or Q'
+    }
+  }
+
   //Allow the controlling player to fire a shot
   async takeTurn() {
-    // take input and fire
-    let input = await this.getUserInput()
-    // validate shot or ask for input again
-    input == 'Q' ? this.endGame() : this.endTurn()
+    let takingInput = true
+    let shot
+
+    while (takingInput) {
+      shot = await this.getPlayerShot()
+
+      try {
+        shot = this.translateInput(shot)
+        takingInput = false
+      }
+      catch(e) {
+        console.log("Please enter a valid format : ", e)
+      }
+
+    }
     
+    if(shot == 'Q') {
+      this.quit()
+    } else {
+      this.Players[1].recieveShot(shot);
+      this.endTurn()
+    }
   }
 }
