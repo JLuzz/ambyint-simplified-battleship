@@ -88,6 +88,8 @@ export default class GameController {
     if(this.winConditionMet()){
       this.endGame()
     } else {
+      console.log(`Player ${this.Players[1].ID} Board:`)
+      console.log(this.Players.find(player => player.ID == this.Players[1].ID).board.printBoard())
       this.swapControllingPlayer()
       this.takeTurn()
     }
