@@ -1,4 +1,4 @@
-import GameController from "../src/gameController.js"
+import GameController from '../src/gameController.js'
 
 jest.mock('readline')
 
@@ -24,6 +24,20 @@ describe('GameController', () => {
 
   })
 
+  describe('quit', () => {
+    
+    const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => {})
+
+    beforeEach(() => {
+      GC.setup()
+    })
+
+    test('Should exit game', () => {
+      expect(mockExit).toHaveBeenCalled()
+    })
+
+  })
+
   describe('endGame', () => {
 
     const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => {})
@@ -32,7 +46,7 @@ describe('GameController', () => {
       GC.setup()
     })
     
-    test('Should empty the player array', () => {
+    test('Should empty the player array and exit game', () => {
       GC.endGame()
       expect(GC.Players.length).toEqual(0)
       expect(mockExit).toHaveBeenCalled()
@@ -67,19 +81,6 @@ describe('GameController', () => {
 
   })
 
-  describe('endTurn', () => {
-
-    // mock winConditionMet to be true
-    test('winConditionMet = true', () => {
-      //expect Players array to be length 0
-    })
-
-    test('winConditionMet = false', () => {
-      //expect Players to have swapped
-    })
-
-  })
-
   describe('swapControllingPlayer', () => {
 
     beforeEach(() => {
@@ -92,6 +93,41 @@ describe('GameController', () => {
       GC.swapControllingPlayer()
       expect(controllingPlayerBeforeSwap).not.toEqual(GC.Players[0])
       expect(nonControllingPlayerBeforeSwap).not.toEqual(GC.Players[1])
+    })
+
+  })
+
+  describe('translateInput', () => {
+    
+    test('Should return coordinate', () => {
+      let input = 'A1'
+      let translation = GC.translateInput(input)
+      expect(translation[0]).toEqual(0)
+      expect(translation[1]).toEqual(0)
+    })
+
+    test('Should return \'Q\'', () => {
+      let input = 'Q'
+      let translation = GC.translateInput(input)
+      expect(translation).toEqual('Q')
+    })
+
+    test('Should throw invalid integer input error', () => {
+      let input = 'A9'
+      try {
+        GC.translateInput(input)
+      } catch(e) {
+        expect(e).toBe('Number must be between 1 - 8')
+      }
+    })
+
+    test('Should throw invalid alpha error', () => {
+      let input = 'X1'
+      try {
+        GC.translateInput(input)
+      } catch(e) {
+        expect(e).toBe('Alpha char must be A-H or Q')
+      }
     })
 
   })
