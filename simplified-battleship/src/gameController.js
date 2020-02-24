@@ -20,7 +20,7 @@ export default class GameController {
   start() {
     console.log('Game Starting...')
     this.setup()
-    this.takeTurn()
+    .then(() => this.takeTurn())
   }
 
   quit() {
@@ -43,15 +43,56 @@ export default class GameController {
 
   //Initial game setup, Player creation
   async setup() {
+    //Init and place first player
     let player1 = new Player('1')
-    let player1placement = [[0,0], [0,2]]
-    // let player1Placement = await this.getPlayerPlacement(player1.ID)
-    // let coordinates = translateInput();
-    player1.placeShip(player1Placement[0], player1Placement[1])
+    let P1Placement
+    let P1PlacementSplit
+    let P1Start
+    let P1End
 
+    let takingInput = true
+
+    while (takingInput) {
+      P1Placement = await this.getPlayerPlacement(player1.ID)
+      P1PlacementSplit = P1Placement.split(' ')
+
+      try {
+        P1Start = this.translateInput(P1PlacementSplit[0])
+        P1End = this.translateInput(P1PlacementSplit[1])
+        takingInput = false
+      } catch(e) {
+        Console.log('Please enter a valid format : ', e)
+      }
+
+    }
+
+    player1.placeShip(P1Start, P1End)
+
+    //Init and place second player
     let player2 = new Player('2')
-    let player2placement = [[0,0], [0,2]]
-    player2.placeShip(player2placement[0], player2placement[1])
+    let P2Placement
+    let P2PlacementSplit
+    let P2Start
+    let P2End
+
+    takingInput = true
+
+    while (takingInput) {
+      P2Placement = await this.getPlayerPlacement(player2.ID)
+      P2PlacementSplit = P2Placement.split(' ')
+
+      try {
+        P2Start = this.translateInput(P2PlacementSplit[0])
+        P2End = this.translateInput(P2PlacementSplit[1])
+        takingInput = false
+      } catch(e) {
+        Console.log('Please enter a valid format : ', e)
+      }
+
+    }
+
+    player2.placeShip(P2Start, P2End)
+
     this.Players = [player1, player2]
   }
 
