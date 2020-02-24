@@ -54,11 +54,11 @@ describe('GameController', () => {
 
   })
 
-  describe('setup', () => {
+  describe('setupPlayer', () => {
     
-    test('Should add two new players to the Players array', () => {
-      GC.setup()
-      expect(GC.Players.length).toEqual(2)
+    test('Should return a new player', () => {
+      let player = GC.setupPlayer('1')
+      expect(player).toBeDefined()
     })
 
   })
@@ -127,6 +127,15 @@ describe('GameController', () => {
         GC.translateInput(input)
       } catch(e) {
         expect(e).toBe('Alpha char must be A-H or Q')
+      }
+    })
+
+    test('Should throw error if coordinates are too long', () => {
+      let input = 'A12'
+      try {
+        GC.translateInput(input)
+      } catch(e) {
+        expect(e).toBe('Enter coordinates in the format : B5')
       }
     })
 

@@ -19,8 +19,12 @@ export default class GameController {
   //Begins game loop
   start() {
     console.log('Game Starting...')
-    this.setup()
-    .then(() => this.takeTurn())
+    this.setupPlayer('1')
+    .then((player1) => this.setupPlayer('2')
+    .then((player2) => {
+      this.Players = [player1, player2]
+      this.takeTurn()
+    }))
   }
 
   quit() {
@@ -41,59 +45,36 @@ export default class GameController {
     process.exit()
   }
 
-  //Initial game setup, Player creation
-  async setup() {
-    //Init and place first player
-    let player1 = new Player('1')
-    let P1Placement
-    let P1PlacementSplit
-    let P1Start
-    let P1End
+  async setupPlayer(id) {
+    let player = new Player(id)
+    let placement
+    let placementSplit
+    let start
+    let end
 
     let takingInput = true
 
     while (takingInput) {
-      P1Placement = await this.getPlayerPlacement(player1.ID)
-      P1PlacementSplit = P1Placement.split(' ')
+      placement = await this.getPlayerPlacement(player.ID)
+      placementSplit = placement.split(' ')
 
       try {
-        P1Start = this.translateInput(P1PlacementSplit[0])
-        P1End = this.translateInput(P1PlacementSplit[1])
-        takingInput = false
+        start = this.translateInput(placementSplit[0])
+        end = this.translateInput(placementSplit[1])
       } catch(e) {
         Console.log('Please enter a valid format : ', e)
       }
 
-    }
-
-    player1.placeShip(P1Start, P1End)
-
-    //Init and place second player
-    let player2 = new Player('2')
-    let P2Placement
-    let P2PlacementSplit
-    let P2Start
-    let P2End
-
-    takingInput = true
-
-    while (takingInput) {
-      P2Placement = await this.getPlayerPlacement(player2.ID)
-      P2PlacementSplit = P2Placement.split(' ')
-
       try {
-        P2Start = this.translateInput(P2PlacementSplit[0])
-        P2End = this.translateInput(P2PlacementSplit[1])
+        player.placeShip(start, end)
         takingInput = false
-      } catch(e) {
-        Console.log('Please enter a valid format : ', e)
+      } catch (e) {
+        console.log('Please give valid ship coordinates : ', e)
       }
 
     }
 
-    player2.placeShip(P2Start, P2End)
-
-    this.Players = [player1, player2]
+    return player
   }
 
   //Checks if the non-controlling player ship has been sunk
@@ -130,6 +111,10 @@ export default class GameController {
   }
 
   translateInput(input) {
+
+    if(input.length > 2) {
+      throw 'Enter coordiates in the format : B5'
+    }
 
     let integerInput = parseInt(input.charAt(1)) - 1
 
