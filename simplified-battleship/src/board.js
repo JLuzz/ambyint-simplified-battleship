@@ -1,3 +1,4 @@
+import Ship from './ship.js'
 import * as BOARD from './constants/boardConstants.js'
 
 export default class Board {
@@ -6,20 +7,11 @@ export default class Board {
     this.height = 8
     this.width = 8
     this.board = new Array(this.height).fill(BOARD.WATER).map(() => new Array(this.width).fill(BOARD.WATER))
-    this.ship = { 
-      placement: [{ 
-        coordinates: { 
-          location:'B5',
-          hit: false 
-        } 
-      }], 
-      isSunk: false
-    }
+    this.ship = new Ship()
   }
   
   placeShip(start, end) {
-    // let coordinates = this.ship.place(start, end)
-    let coordinates = [[0,1],[0,2],[0,3]]
+    let coordinates = this.ship.place(start, end)
     coordinates.forEach((coordinate) => {
       this.board[coordinate[0]][coordinate[1]] = BOARD.SHIP
     })
@@ -27,7 +19,7 @@ export default class Board {
 
   placeShot(coordinate) {
     if(this.board[coordinate[0]][coordinate[1]] == BOARD.SHIP || this.board[coordinate[0]][coordinate[1]] == BOARD.HIT) {
-      // this.ship.registerHit(coordinate)
+      this.ship.registerHit(coordinate)
       this.board[coordinate[0]][coordinate[1]] = BOARD.HIT 
     }
     else {
