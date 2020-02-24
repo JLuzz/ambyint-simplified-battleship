@@ -11,7 +11,9 @@
     "transform": {
       "^.+\\.jsx?$": "babel-jest"
     },
-    "setupFilesAfterEnv": ["jest-extended"]
+    "setupFilesAfterEnv": [
+      "jest-extended"
+    ]
   },
   "author": "Jeremy Luzzi",
   "license": "ISC",
